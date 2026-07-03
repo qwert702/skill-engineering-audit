@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="README.md">🇨🇳 中文</a> · <a href="README.en.md">🇬🇧 English</a>
+</p>
+
+---
+
 # Engineering & Code Audit
 
 An all-in-one engineering audit **Skill for Claude Code**, covering six dimensions: **Code Quality, Security, Architecture, Performance, Dependencies, and Compliance**.
