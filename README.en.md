@@ -6,6 +6,25 @@ An all-in-one engineering audit **Skill for Claude Code**, covering six dimensio
 
 ---
 
+## Why This Skill?
+
+This isn't just another code review tool — it's fundamentally different from every audit tool you've seen.
+
+### 🔥 Key Differentiators
+
+| # | Advantage | Details |
+|---|-----------|---------|
+| **1** | **Six dimensions, one command** | One command runs audits across Quality, Security, Architecture, Performance, Dependencies, and Compliance — all in a unified format. **No more juggling SonarQube, Snyk, ESLint, and OWASP ZAP** |
+| **2** | **Whole-codebase health check, not just diffs** | Claude Code's built-in `code-review` only looks at the current git diff. Your skill scans **the entire codebase** — the right tool for legacy system handover, pre-major-upgrade assessment, and regular health checks |
+| **3** | **Security audit beyond changed files** | `security-review` only checks the security impact of changes you're making right now. But most security issues are cumulative. Your skill performs a **full OWASP Top 10 sweep**, uncovering historical debt others miss |
+| **4** | **Fix tracking closes the loop** | Finding issues is easy; ensuring they're fixed is hard. Built-in fix tracking templates for **end-to-end lifecycle from discovery to closure**, with trend analysis across audit rounds. **Unique in the Claude Code ecosystem** |
+| **5** | **Composable dimensions, adjustable depth** | `--focus` selects audit dimensions, `--depth` controls depth. Quick scan in 30 seconds, deep audit for full assessment, focused audit for specific concerns — **one skill for every scenario** |
+| **6** | **Concurrent deep analysis** | At `--depth deep`, each dimension runs as an independent Claude sub-agent in parallel. Dimensions are logically independent with zero overlap, delivering **far greater concurrency gains than traditional single-threaded audits** |
+
+> **In one sentence: `code-review` is "CI for every commit"; this skill is "your monthly full physical" — broader scope, higher perspective, more systematic output.**
+
+---
+
 ## Overview
 
 This skill performs **systematic multi-dimensional audits** on a target codebase. It fills the gap between Claude Code's built-in `code-review` (diff-only) and `security-review` (security-impact-only) by providing a **comprehensive, whole-codebase audit**.
