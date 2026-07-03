@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 验证 SKILL.md YAML frontmatter
+        run: |
+          # 检查文件是否存在
+          if [ ! -f SKILL.md ]; then
+            echo "❌ SKILL.md 不存在"
+            exit 1
+          fi
+
+          # 检查 frontmatter 分隔符
+          if [ "$(head -1 SKILL.md)" != "---" ]; then
+            echo "❌ SKILL.md 第一行不是 ---"
+            exit 1
+          fi
+
+          echo "✅ SKILL.md frontmatter 格式检查通过"
+
+      - name: 检查文件命名规范
+        run: |
+          # 检查文件名是否使用 kebab-case / lowercase
+          errors=0
+          for f in references/*.md templates/*.md; do
+            basename "$f" | grep -qE '^[a-z0-9][a-z0-9-]*\.md$' || {
+              echo "⚠️  文件名不规范（应使用小写字母+连字符）: $f"
+              errors=$((errors+1))
+            }
+          done
+          if [ $errors -gt 0 ]; then
+            echo "❌ $errors 个文件命名不规范"
+            exit 1
+          fi
+          echo "✅ 文件命名检查通过"
+
+      - name: 验证 README 中英文对应章节
+        run: |
+          # 检查两个 README 的章节数量
+          zh_sections=$(grep -c '^## ' README.md || true)
+          en_sections=$(grep -c '^## ' README.en.md || true)
+          if [ "$zh_sections" -ne "$en_sections" ]; then
+            echo "⚠️  中英文 README 章节数不一致: 中文 $zh_sections, 英文 $en_sections"
+            echo "  请保持两侧同步更新"
+          else
+            echo "✅ 中英文 README 章节数一致 ($zh_sections)"
+          fi
+
+      - name: 验证安装脚本
+        run: |
+          if [ -f install.sh ]; then
+            bash -n install.sh && echo "✅ install.sh 语法检查通过"
+          fi
+          if [ -f install.ps1 ]; then
+            pwsh -NoProfile -Command "if (!(Test-Path install.ps1)) { exit 1 }" 2>/dev/null && echo "✅ install.ps1 存在"
+          fi

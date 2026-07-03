@@ -1,5 +1,6 @@
-# Claude Code session data
+# Claude Code session data (but keep project CLAUDE.md)
 .claude/
+!.claude/CLAUDE.md
 
 # OS files
 .DS_Store

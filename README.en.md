@@ -2,6 +2,14 @@
   <a href="README.md">🇨🇳 中文</a> · <a href="README.en.md">🇬🇧 English</a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=flat-square" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
+  <img src="https://img.shields.io/github/last-commit/qwert702/skill-engineering-audit?style=flat-square" alt="Last Commit">
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square" alt="Platform">
+  <img src="https://img.shields.io/badge/dimensions-6-ff69b4?style=flat-square" alt="6 Audit Dimensions">
+</p>
+
 ---
 
 # Engineering & Code Audit
@@ -109,12 +117,22 @@ Every audit result is automatically recorded for trend comparison.
 
 ### Installation
 
+**One-line install:**
+
+```bash
+# Linux / macOS
+curl -sfL https://raw.githubusercontent.com/qwert702/skill-engineering-audit/main/install.sh | sh
+
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/qwert702/skill-engineering-audit/main/install.ps1 | iex
+```
+
+**Manual install:**
+
 ```bash
 # Clone the repository
 git clone git@github.com:qwert702/skill-engineering-audit.git ~/.claude/skills/engineering-audit
 ```
-
-Or download the archive and extract it to `~/.claude/skills/engineering-audit/`.
 
 ### Basic Usage
 
@@ -136,6 +154,17 @@ Or download the archive and extract it to `~/.claude/skills/engineering-audit/`.
 
 # Output to file
 /engineering-audit --output ./audit-report.md
+```
+
+### See It in Action
+
+Curious what the audit report looks like? Check out the **[sample audit report](./examples/sample-audit-report.md)**.
+
+Want to test it yourself? The bundled **[test-fixture](./test-fixture/)** directory contains intentionally flawed code with 15 issues (SQL injection, hardcoded secrets, N+1 queries, etc.). Run an audit to verify:
+
+```bash
+# Run from the test-fixture directory
+/engineering-audit --depth standard
 ```
 
 ### Parameters

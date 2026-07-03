@@ -2,6 +2,14 @@
   <a href="README.md">🇨🇳 中文</a> · <a href="README.en.md">🇬🇧 English</a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=flat-square" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
+  <img src="https://img.shields.io/github/last-commit/qwert702/skill-engineering-audit?style=flat-square" alt="Last Commit">
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square" alt="Platform">
+  <img src="https://img.shields.io/badge/dimensions-6-ff69b4?style=flat-square" alt="6 Audit Dimensions">
+</p>
+
 ---
 
 # 工程和代码审计
@@ -116,12 +124,22 @@
 
 ### 安装
 
+**一行命令安装：**
+
+```bash
+# Linux / macOS
+curl -sfL https://raw.githubusercontent.com/qwert702/skill-engineering-audit/main/install.sh | sh
+
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/qwert702/skill-engineering-audit/main/install.ps1 | iex
+```
+
+**手动安装：**
+
 ```bash
 # 克隆仓库
 git clone git@github.com:qwert702/skill-engineering-audit.git ~/.claude/skills/engineering-audit
 ```
-
-或直接下载压缩包解压到 `~/.claude/skills/engineering-audit/` 目录。
 
 ### 基础使用
 
@@ -143,6 +161,17 @@ git clone git@github.com:qwert702/skill-engineering-audit.git ~/.claude/skills/e
 
 # 输出到文件
 /engineering-audit --output ./audit-report.md
+```
+
+### 效果预览
+
+想看看审计报告长什么样？查看 **[示例审计报告](./examples/sample-audit-report.md)**。
+
+想亲手测试？仓库自带的 **[test-fixture](./test-fixture/)** 目录包含故意植入的 15 个问题（SQL 注入、硬编码密钥、N+1 查询等），可直接运行审计验证效果：
+
+```bash
+# 在 test-fixture 目录下执行
+/engineering-audit --depth standard
 ```
 
 ### 参数说明
