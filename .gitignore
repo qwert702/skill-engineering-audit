@@ -1,0 +1,14 @@
+# Claude Code session data
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor temp files
+*.swp
+*.swo
+*~
+
+# Backup (if user syncs the skill dir somewhere)
+*.bak
