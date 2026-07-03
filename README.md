@@ -36,6 +36,63 @@
 | 📦 **依赖** | 过时版本、已知漏洞、废弃包、未使用依赖 |
 | 📋 **合规** | 许可合规、编码标准、日志安全、数据隐私、API 版本化 |
 
+## 🚀 未来已来：四大高级特性
+
+### 1. 增量审计 (`--incremental`)
+
+只审计 git 历史中有变更的文件，而非全量扫描。
+
+```bash
+# 自上次审计以来的增量
+/engineering-audit --incremental
+
+# 自指定日期以来的变更
+/engineering-audit --incremental --since 2025-06-01
+
+# 自最后 N 次提交以来的变更
+/engineering-audit --incremental --since HEAD~5
+```
+
+**适用场景**：每日快速检查、CI pipeline 集成、code-review 后的补充摸底。
+
+### 2. CI 集成 (`--output-format json`)
+
+输出标准 JSON 格式，可被任何 CI 工具解析。
+
+```bash
+/engineering-audit --depth quick --output-format json --output ./audit.json
+```
+
+**典型 CI 用法**：在 pipeline 中解析 health_score，当 critical 发现数 > 0 时阻断合入；上报健康分到 Grafana 仪表盘；自动对比上一轮审计结果，发现数增加时通知团队。
+
+### 3. 自定义检查规则 (`--rules`)
+
+通过 `.auditrules.yaml` 定义项目特有的审计规则。
+
+```bash
+/engineering-audit --rules .auditrules.yaml
+```
+
+**支持规则类型**：
+- **模式匹配**：正则搜索指定模式（如禁止 `console.log`、硬编码密码）
+- **度量阈值**：检查函数长度、圈复杂度等度量值是否超标
+- **上下文感知**：排除特定上下文的匹配（如已有鉴权的路由不报未鉴权）
+
+### 4. 审计历史与趋势 (`--history --trend`)
+
+自动记录每次审计结果，支持趋势对比。
+
+```bash
+# 查看历史记录列表
+/engineering-audit --history
+
+# 生成趋势分析报告
+/engineering-audit --history --trend
+```
+
+**输出内容**：发现数量趋势图、严重等级分布变化、修复率统计、健康度评分曲线。
+**内置健康度公式**：100 - (高危×10 + 中危×5 + 低危×2)，一目了然。
+
 ---
 
 ## 快速开始
@@ -79,6 +136,12 @@ git clone git@github.com:qwert702/skill-engineering-audit.git ~/.claude/skills/e
 | `--focus` | `quality` / `security` / `architecture` / `performance` / `dependencies` / `compliance` / `all` | `all` | 审计焦点维度，逗号分隔 |
 | `--depth` | `quick` / `standard` / `deep` | `standard` | 审计深度 |
 | `--output` | 文件路径 | 终端输出 | 审计报告输出路径 |
+| `--output-format` | `markdown` / `json` | `markdown` | 报告输出格式 |
+| `--incremental` | 无值 | 关闭 | 增量模式，仅审计 git 历史中有变更的文件 |
+| `--since` | git 引用/日期 | — | 与 `--incremental` 配合，指定增量起点 |
+| `--rules` | 文件路径 | — | 自定义检查规则文件路径 |
+| `--history` | 无值 | 关闭 | 查看审计历史记录 |
+| `--trend` | 无值 | 关闭 | 与 `--history` 配合，生成趋势分析 |
 
 ---
 
@@ -163,7 +226,7 @@ Phase 5: 报告生成
 
 ```
 └── engineering-audit/
-    ├── SKILL.md                       # 主技能定义
+    ├── SKILL.md                       # 主技能定义（v2.0.0）
     ├── references/
     │   ├── audit-dimensions.md        # 六维审计总纲
     │   ├── code-quality-checklist.md  # 代码质量检查清单

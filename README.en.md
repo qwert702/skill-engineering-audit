@@ -40,6 +40,63 @@ This skill performs **systematic multi-dimensional audits** on a target codebase
 | 📦 **Dependencies** | Outdated versions, known vulnerabilities, deprecated packages, unused dependencies |
 | 📋 **Compliance** | License compliance, coding standards, log safety, data privacy, API versioning |
 
+## 🚀 Advanced Features
+
+### 1. Incremental Audit (`--incremental`)
+
+Audit only files that have changed since a known point, not the entire codebase.
+
+```bash
+# Since the last audit
+/engineering-audit --incremental
+
+# Since a specific date
+/engineering-audit --incremental --since 2025-06-01
+
+# Since the last N commits
+/engineering-audit --incremental --since HEAD~5
+```
+
+**Use cases**: Daily health checks, CI pipeline gating, quick follow-up after `code-review`.
+
+### 2. CI Integration (`--output-format json`)
+
+Outputs standard JSON that any CI tool can parse.
+
+```bash
+/engineering-audit --depth quick --output-format json --output ./audit.json
+```
+
+**Typical CI flow**: Block the pipeline when `critical > 0`; report `health_score` to a Grafana dashboard; auto-notify the team when finding count increases.
+
+### 3. Custom Audit Rules (`--rules`)
+
+Define project-specific audit rules via `.auditrules.yaml`.
+
+```bash
+/engineering-audit --rules .auditrules.yaml
+```
+
+**Rule types**:
+- **Pattern matching**: Regex search for forbidden patterns (e.g. `console.log`, hardcoded secrets)
+- **Metric thresholds**: Check function length, cyclomatic complexity against limits
+- **Context-aware**: Exclude matches in specific contexts (e.g. routes already protected by auth middleware)
+
+### 4. Audit History & Trends (`--history --trend`)
+
+Every audit result is automatically recorded for trend comparison.
+
+```bash
+# List all historical records
+/engineering-audit --history
+
+# Generate trend analysis report
+/engineering-audit --history --trend
+```
+
+**Outputs**: Finding count trend chart, severity distribution changes, fix rate stats, health score curve.
+**Built-in health formula**: `100 - (critical×10 + high×5 + medium×2)` — instant codebase health at a glance.
+
 ---
 
 ## Quick Start
@@ -83,6 +140,12 @@ Or download the archive and extract it to `~/.claude/skills/engineering-audit/`.
 | `--focus` | `quality` / `security` / `architecture` / `performance` / `dependencies` / `compliance` / `all` | `all` | Audit focus dimension(s), comma-separated |
 | `--depth` | `quick` / `standard` / `deep` | `standard` | Audit depth |
 | `--output` | File path | Terminal output | Output audit report to file |
+| `--output-format` | `markdown` / `json` | `markdown` | Report output format |
+| `--incremental` | Flag | Off | Incremental mode: only audit files changed in git history |
+| `--since` | Git ref / date | — | Used with `--incremental` to specify the starting point |
+| `--rules` | File path | — | Custom audit rules file path |
+| `--history` | Flag | Off | View audit history records |
+| `--trend` | Flag | Off | Used with `--history` to generate trend analysis |
 
 ---
 
@@ -167,7 +230,7 @@ Discovered → Pending → In Progress → PR → Verified → Closed
 
 ```
 └── engineering-audit/
-    ├── SKILL.md                       # Main skill definition
+    ├── SKILL.md                       # Main skill definition (v2.0.0)
     ├── references/
     │   ├── audit-dimensions.md        # Six-dimension audit reference
     │   ├── code-quality-checklist.md  # Code quality checklist
