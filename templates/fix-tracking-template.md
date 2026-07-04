@@ -29,7 +29,7 @@
 | 字段 | 值 |
 |------|-----|
 | **严重等级** | {severity} |
-| **位置** | `{file_path}`:L{line_number} |
+| **位置** | `{file_path}`:L{line_start}{if line_end}-{line_end}{end} |
 | **发现日期** | {discovered_date} |
 | **预期修复截止** | {deadline} |
 
@@ -71,10 +71,11 @@
 
 | 等级 | 已修复 | 修复中 | 待修复 | 已关闭 | 合计 |
 |------|--------|--------|--------|--------|------|
-| 🔴 高危 | {c_fixed} | {c_ip} | {c_pending} | {c_closed} | {c_total} |
-| 🟠 中危 | {h_fixed} | {h_ip} | {h_pending} | {h_closed} | {h_total} |
-| 🟡 低危 | {m_fixed} | {m_ip} | {m_pending} | {m_closed} | {m_total} |
-| 🔵 信息 | {i_fixed} | {i_ip} | {i_pending} | {i_closed} | {i_total} |
+| 🔴 严重 | {c_fixed} | {c_ip} | {c_pending} | {c_closed} | {c_total} |
+| 🟠 高危 | {h_fixed} | {h_ip} | {h_pending} | {h_closed} | {h_total} |
+| 🟡 中危 | {m_fixed} | {m_ip} | {m_pending} | {m_closed} | {m_total} |
+| 🔵 低危 | {l_fixed} | {l_ip} | {l_pending} | {l_closed} | {l_total} |
+| ⚪ 信息 | {i_fixed} | {i_ip} | {i_pending} | {i_closed} | {i_total} |
 
 ### 待办事项（按截止日期排序）
 

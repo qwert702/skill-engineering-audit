@@ -1,15 +1,17 @@
 {
   "name": "test-fixture",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "private": true,
-  "description": "A deliberately flawed codebase for testing engineering-audit skill",
+  "description": "A deliberately flawed codebase for testing engineering-audit skill (fixed version 2.2)",
   "main": "src/app.ts",
   "scripts": {
     "build": "tsc",
+    "lint": "npx eslint src/",
+    "check": "npm run lint && npm run audit-deps",
+    "audit-deps": "npm audit --audit-level=high",
     "audit": "/engineering-audit"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.6.0"
@@ -17,7 +19,6 @@
   "devDependencies": {
     "typescript": "^5.3.0",
     "@types/express": "^4.17.21",
-    "@types/lodash": "^4.14.202",
     "@types/jsonwebtoken": "^9.0.5"
   }
 }

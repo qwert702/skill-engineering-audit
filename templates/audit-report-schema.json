@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Engineering-Audit Report",
+  "description": "JSON output schema for engineering-audit skill reports",
+  "type": "object",
+  "required": ["meta", "scope", "summary", "findings"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version", "timestamp", "duration_seconds", "mode"],
+      "properties": {
+        "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "duration_seconds": { "type": "integer", "minimum": 0 },
+        "mode": { "type": "string", "enum": ["full", "incremental"] },
+        "incremental_since": { "type": ["string", "null"] }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": ["path", "focus", "depth", "files_audited", "total_files"],
+      "properties": {
+        "path": { "type": "string" },
+        "focus": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["quality", "security", "architecture", "performance", "dependencies", "compliance"] }
+        },
+        "depth": { "type": "string", "enum": ["quick", "standard", "deep"] },
+        "files_audited": { "type": "integer", "minimum": 0 },
+        "total_files": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_findings", "by_severity", "by_dimension", "health_score"],
+      "properties": {
+        "total_findings": { "type": "integer", "minimum": 0 },
+        "by_severity": {
+          "type": "object",
+          "required": ["critical", "high", "medium", "low", "info"],
+          "properties": {
+            "critical": { "type": "integer", "minimum": 0 },
+            "high": { "type": "integer", "minimum": 0 },
+            "medium": { "type": "integer", "minimum": 0 },
+            "low": { "type": "integer", "minimum": 0 },
+            "info": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "by_dimension": {
+          "type": "object",
+          "required": ["quality", "security", "architecture", "performance", "dependencies", "compliance"],
+          "properties": {
+            "quality": { "type": "integer", "minimum": 0 },
+            "security": { "type": "integer", "minimum": 0 },
+            "architecture": { "type": "integer", "minimum": 0 },
+            "performance": { "type": "integer", "minimum": 0 },
+            "dependencies": { "type": "integer", "minimum": 0 },
+            "compliance": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "health_score": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "dimension", "title", "description", "file", "line_start", "recommendation"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^AUDIT-\\d{3}$" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium", "low", "info"] },
+          "dimension": { "type": "string", "enum": ["quality", "security", "architecture", "performance", "dependencies", "compliance"] },
+          "subcategory": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "file": { "type": "string" },
+          "line_start": { "type": "integer", "minimum": 1 },
+          "line_end": { "type": "integer", "minimum": 1 },
+          "recommendation": { "type": "string" },
+          "verification": { "type": "string" },
+          "custom_rule": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "previous_findings": { "type": "integer", "minimum": 0 },
+        "previous_health_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "change": {
+          "type": "object",
+          "properties": {
+            "findings_delta": { "type": "integer" },
+            "health_score_delta": { "type": "integer" },
+            "by_severity_delta": {
+              "type": "object",
+              "properties": {
+                "critical": { "type": "integer" },
+                "high": { "type": "integer" },
+                "medium": { "type": "integer" },
+                "low": { "type": "integer" },
+                "info": { "type": "integer" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

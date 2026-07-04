@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=flat-square" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/version-2.2.0-blue?style=flat-square" alt="Version 2.2.0">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/github/last-commit/qwert702/skill-engineering-audit?style=flat-square" alt="Last Commit">
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square" alt="Platform">
@@ -109,7 +109,7 @@ Every audit result is automatically recorded for trend comparison.
 ```
 
 **Outputs**: Finding count trend chart, severity distribution changes, fix rate stats, health score curve.
-**Built-in health formula**: `100 - (critical×10 + high×5 + medium×2)` — instant codebase health at a glance.
+**Built-in health formula**: `100 - (critical×10 + high×5 + medium×2 + low×1)` — instant codebase health at a glance.
 
 ---
 
@@ -216,10 +216,11 @@ Phase 5: Report Generation
 
 | Level | Criteria | Response Time |
 |-------|----------|---------------|
-| 🔴 **Critical** | Direct security impact or core functionality failure — data breach, service outage, privilege escalation | Within 24h |
-| 🟠 **High** | Significant quality or availability impact — performance degradation, maintenance burden | Within 1 week |
+| 🔴 **Critical** | Direct security exploit or core functionality failure — data breach, RCE, privilege escalation | Within 24h |
+| 🟠 **High** | Significant quality or availability impact — performance degradation, high maintenance burden | Within 1 week |
 | 🟡 **Medium** | Minor best-practice violation — doesn't affect correctness | Within 1 month |
-| 🔵 **Info** | Observation only, no direct risk | As needed |
+| 🔵 **Low** | Observation only, no direct risk | As needed |
+| ⚪ **Info** | Informational only, does not constitute a risk | No response needed |
 
 ---
 
@@ -265,14 +266,21 @@ Discovered → Pending → In Progress → PR → Verified → Closed
 
 ```
 └── engineering-audit/
-    ├── SKILL.md                       # Main skill definition (v2.0.0)
+    ├── SKILL.md                       # Main skill definition (v2.1.0)
+    ├── CHANGELOG.md                   # Release notes
+    ├── .audit-history.yaml            # Audit history records
     ├── references/
     │   ├── audit-dimensions.md        # Six-dimension audit reference
     │   ├── code-quality-checklist.md  # Code quality checklist
     │   └── severity-classification.md # Severity classification guide
-    └── templates/
-        ├── audit-report-template.md   # Audit report template
-        └── fix-tracking-template.md   # Fix tracking template
+    ├── templates/
+    │   ├── audit-report-template.md   # Audit report template
+    │   └── fix-tracking-template.md   # Fix tracking template
+    ├── examples/
+    │   └── sample-audit-report.md     # Sample audit report
+    ├── test-fixture/                  # Test fixture with intentionally flawed code
+    ├── install.sh                     # Linux/macOS install script
+    └── install.ps1                    # Windows install script
 ```
 
 ---

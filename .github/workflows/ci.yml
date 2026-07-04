@@ -5,6 +5,9 @@ on:
     branches: [master, main]
   pull_request:
     branches: [master, main]
+  schedule:
+    # 每周一 UTC 08:00 自动检查依赖安全
+    - cron: '0 8 * * 1'
 
 jobs:
   validate:
@@ -14,23 +17,18 @@ jobs:
 
       - name: 验证 SKILL.md YAML frontmatter
         run: |
-          # 检查文件是否存在
           if [ ! -f SKILL.md ]; then
             echo "❌ SKILL.md 不存在"
             exit 1
           fi
-
-          # 检查 frontmatter 分隔符
           if [ "$(head -1 SKILL.md)" != "---" ]; then
             echo "❌ SKILL.md 第一行不是 ---"
             exit 1
           fi
-
           echo "✅ SKILL.md frontmatter 格式检查通过"
 
       - name: 检查文件命名规范
         run: |
-          # 检查文件名是否使用 kebab-case / lowercase
           errors=0
           for f in references/*.md templates/*.md; do
             basename "$f" | grep -qE '^[a-z0-9][a-z0-9-]*\.md$' || {
@@ -46,7 +44,6 @@ jobs:
 
       - name: 验证 README 中英文对应章节
         run: |
-          # 检查两个 README 的章节数量
           zh_sections=$(grep -c '^## ' README.md || true)
           en_sections=$(grep -c '^## ' README.en.md || true)
           if [ "$zh_sections" -ne "$en_sections" ]; then
@@ -64,3 +61,48 @@ jobs:
           if [ -f install.ps1 ]; then
             pwsh -NoProfile -Command "if (!(Test-Path install.ps1)) { exit 1 }" 2>/dev/null && echo "✅ install.ps1 存在"
           fi
+
+      - name: Markdown 链接检查
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          config-file: '.github/workflows/mlc_config.json'
+
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 安装依赖 (test-fixture)
+        working-directory: test-fixture
+        run: npm ci
+
+      - name: TypeScript 编译检查
+        working-directory: test-fixture
+        run: npx tsc --noEmit
+
+      - name: npm audit — 检查已知漏洞
+        working-directory: test-fixture
+        run: |
+          npm audit --audit-level=high || {
+            echo "❌ 存在高危及以上依赖漏洞，请及时修复"
+            echo "建议运行: npm audit fix"
+            exit 1
+          }
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ShellCheck — 静态分析 Shell 脚本
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: '.'
+          severity: warning

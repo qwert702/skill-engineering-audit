@@ -1,0 +1,14 @@
+{
+  "aliveStatusCodes": [200, 206],
+  "ignorePatterns": [
+    {
+      "pattern": "^https://raw\\.githubusercontent\\.com/qwert702/skill-engineering-audit/"
+    },
+    {
+      "pattern": "^https://img\\.shields\\.io/"
+    },
+    {
+      "pattern": "^http://localhost"
+    }
+  ]
+}

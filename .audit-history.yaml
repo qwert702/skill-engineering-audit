@@ -1,0 +1,53 @@
+# 工程审计历史记录
+# 每次审计完成后自动追加记录
+# 格式: YAML 文档序列 (--- 分隔)
+
+---
+audit_id: "AUDIT-20260703-001"
+date: "2026-07-03"
+timestamp: "2026-07-03T10:00:00Z"
+commit: "abc123def456"  # 审计时的 HEAD commit hash
+mode: full               # full | incremental
+dimensions: [quality, security, architecture, performance, dependencies, compliance]
+depth: standard
+duration_seconds: 30
+findings:
+  critical: 4
+  high: 6
+  medium: 12
+  info: 3
+  total: 25
+health_score: 42
+scope:
+  path: "./test-fixture"
+  files_audited: 15
+  total_files: 18
+summary: |
+  首次全量审计 test-fixture 代码库。
+  发现 4 个高危漏洞（SQL 注入、JWT 密钥硬编码、数据库密码硬编码、URL 注入）。
+---
+audit_id: "AUDIT-20260703-002"
+date: "2026-07-03"
+timestamp: "2026-07-03T12:00:00Z"
+commit: "fix-v2.0.0"
+mode: full
+dimensions: [quality, security, architecture, performance, dependencies, compliance]
+depth: standard
+duration_seconds: 25
+findings:
+  critical: 0
+  high: 0
+  medium: 0
+  info: 0
+  total: 0
+health_score: 100
+scope:
+  path: "./test-fixture"
+  files_audited: 15
+  total_files: 18
+summary: |
+  全量修复后验证审计：所有 25 个发现项已修复，健康分从 42 升至 100。
+  🔴 4 个高危漏洞全部修复（参数化查询、环境变量密钥、URL 安全构造）
+  🟠 6 个中危全部修复（N+1 查询、圈复杂度拆分、重复代码抽取）
+  🟡 12 个低危全部修复（未使用导入、魔术数字、空 catch、HACK 标记等）
+  🔵 3 个信息项已优化

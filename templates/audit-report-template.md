@@ -14,15 +14,16 @@
 
 | 严重等级 | 数量 | 占比 |
 |----------|------|------|
-| 🔴 高危 | {critical_count} | {critical_pct}% |
-| 🟠 中危 | {high_count} | {high_pct}% |
-| 🟡 低危 | {medium_count} | {medium_pct}% |
-| 🔵 信息 | {info_count} | {info_pct}% |
+| 🔴 严重 | {critical_count} | {critical_pct}% |
+| 🟠 高危 | {high_count} | {high_pct}% |
+| 🟡 中危 | {medium_count} | {medium_pct}% |
+| 🔵 低危 | {low_count} | {low_pct}% |
+| ⚪ 信息 | {info_count} | {info_pct}% |
 | **合计** | **{total_count}** | **100%** |
 
 ### 按维度分布
 
-| 维度 | 高危 | 中危 | 低危 | 信息 | 合计 |
+| 维度 | 严重 | 高危 | 中危 | 低危 | 信息 | 合计 |
 |------|------|------|------|------|------|
 | 代码质量 | - | - | - | - | - |
 | 安全 | - | - | - | - | - |
@@ -41,7 +42,7 @@
 
 ### 优先行动项
 
-> 按严重等级排序，高危优先。标记为 🔴 的需要 24 小时内响应。
+> 按严重等级排序，严重优先。标记为 🔴 的需要 24 小时内响应。
 
 1. **{priority_1_title}** — {priority_1_brief} ({priority_1_location})
 2. **{priority_2_title}** — {priority_2_brief} ({priority_2_location})
@@ -53,9 +54,11 @@
 
 | # | 等级 | 维度 | 文件:行号 | 描述 | 建议 |
 |---|------|------|-----------|------|------|
-| {id_1} | 🔴 高危 | {dim_1} | `{file_1}`:L{line_1} | {desc_1} | {advice_1} |
-| {id_2} | 🟠 中危 | {dim_2} | `{file_2}`:L{line_2} | {desc_2} | {advice_2} |
-| {id_3} | 🟡 低危 | {dim_3} | `{file_3}`:L{line_3} | {desc_3} | {advice_3} |
+| {id_1} | 🔴 严重 | {dim_1} | `{file_1}`:L{line_1} | {desc_1} | {advice_1} |
+| {id_2} | 🟠 高危 | {dim_2} | `{file_2}`:L{line_2} | {desc_2} | {advice_2} |
+| {id_3} | 🟡 中危 | {dim_3} | `{file_3}`:L{line_3} | {desc_3} | {advice_3} |
+| {id_4} | 🔵 低危 | {dim_4} | `{file_4}`:L{line_4} | {desc_4} | {advice_4} |
+| {id_5} | ⚪ 信息 | {dim_5} | `{file_5}`:L{line_5} | {desc_5} | {advice_5} |
 
 ---
 
@@ -69,7 +72,7 @@
 |------|-----|
 | **严重等级** | {finding.severity_icon} {finding.severity} |
 | **类别** | {finding.dimension} - {finding.subcategory} |
-| **位置** | `{finding.file_path}`:L{finding.line_number} |
+| **位置** | `{finding.file_path}`:L{finding.line_start} {if finding.line_end}-{finding.line_end}{end} |
 | **参考编号** | AUDIT-{finding.id} |
 
 #### 风险描述

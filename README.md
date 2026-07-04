@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=flat-square" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/version-2.2.0-blue?style=flat-square" alt="Version 2.2.0">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/github/last-commit/qwert702/skill-engineering-audit?style=flat-square" alt="Last Commit">
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square" alt="Platform">
@@ -223,10 +223,11 @@ Phase 5: 报告生成
 
 | 等级 | 判定标准 | 响应时限 |
 |------|---------|---------|
-| 🔴 **高危** | 直接影响安全性或核心功能，可能导致数据泄露、服务不可用、权限绕过 | 24小时内 |
-| 🟠 **中危** | 显著影响代码质量或可用性，可能导致性能退化、维护困难 | 1周内 |
-| 🟡 **低危** | 轻微违反最佳实践或编码规范，不影响功能正确性 | 1月内 |
-| 🔵 **信息** | 观察性发现，无直接风险，供参考 | 酌情 |
+| 🔴 **严重** | 直接影响安全性或核心功能，可能导致数据泄露、服务不可用、权限绕过 | 24小时内 |
+| 🟠 **高危** | 显著影响代码质量或可用性，可能导致性能退化、维护困难 | 1周内 |
+| 🟡 **中危** | 轻微违反最佳实践或编码规范，不影响功能正确性 | 1月内 |
+| 🔵 **低危** | 观察性发现，无直接风险，供参考 | 酌情 |
+| ⚪ **信息** | 纯信息提示，不构成风险 | 无需响应 |
 
 ---
 
@@ -272,15 +273,21 @@ Phase 5: 报告生成
 
 ```
 └── engineering-audit/
-    ├── SKILL.md                       # 主技能定义（v2.0.0）
+    ├── SKILL.md                       # 主技能定义（v2.1.0）
     ├── CHANGELOG.md                   # 更新说明
+    ├── .audit-history.yaml            # 审计历史记录
     ├── references/
     │   ├── audit-dimensions.md        # 六维审计总纲
     │   ├── code-quality-checklist.md  # 代码质量检查清单
     │   └── severity-classification.md # 严重等级分类指南
-    └── templates/
-        ├── audit-report-template.md   # 审计报告模板
-        └── fix-tracking-template.md   # 修复跟踪模板
+    ├── templates/
+    │   ├── audit-report-template.md   # 审计报告模板
+    │   └── fix-tracking-template.md   # 修复跟踪模板
+    ├── examples/
+    │   └── sample-audit-report.md     # 示例审计报告
+    ├── test-fixture/                  # 测试夹具（含故意植入问题的代码）
+    ├── install.sh                     # Linux/macOS 安装脚本
+    └── install.ps1                    # Windows 安装脚本
 ```
 
 ---
